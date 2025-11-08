@@ -2,6 +2,19 @@
 
 A full-stack monorepo application for scheduling management, built with NestJS, Next.js, and TypeScript.
 
+## About
+
+Scheduler is a modern scheduling and appointment management app built with Next.js and NestJS. It lets users easily book, manage, and track appointments, send automated reminders, and streamline business scheduling — all in one intuitive interface.
+
+### Key Features
+
+- **Appointment Booking** - Easy-to-use interface for booking appointments
+- **Appointment Management** - Track and manage all your appointments in one place
+- **Automated Reminders** - Send automated reminders to reduce no-shows
+- **Business Scheduling** - Streamline scheduling workflows for businesses
+- **User Authentication** - Secure authentication and user management
+- **Modern UI** - Intuitive, responsive interface built with Tailwind CSS
+
 ## Overview
 
 This monorepo contains:
