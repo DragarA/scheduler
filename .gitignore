@@ -1,0 +1,36 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+
+# Env files
+.env
+.env.*
+
+# Build outputs - Nest API
+dist/
+
+# Build outputs - Next.js web
+.next/
+out/
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Coverage
+coverage/
+
+# Prisma (if using SQLite locally)
+prisma/*.db
+prisma/*.db-journal
+
+# Turborepo
+.turbo/
+
+*TODO*

@@ -1,0 +1,15 @@
+services:
+  postgres:
+    container_name: 'scheduler-api-db'
+    image: postgres:18
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: testdbuser
+      POSTGRES_PASSWORD: testdbpass
+      POSTGRES_DB: schedulerDb
+    volumes:
+      - 'dbdata:/var/lib/postgresql'
+volumes:
+  dbdata:
+    name: schedulerBackendDB
