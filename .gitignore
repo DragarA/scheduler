@@ -7,7 +7,7 @@ node_modules/
 
 # Env files
 .env
-.env.*
+.env.local
 
 # Build outputs - Nest API
 dist/
@@ -34,3 +34,5 @@ prisma/*.db-journal
 .turbo/
 
 *TODO*
+
+packages/sdk/src/generated/*

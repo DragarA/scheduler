@@ -1,23 +1,31 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Test } from "../../../generated/prisma/client";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { Test, User, UserStatus } from "../../../generated/prisma/client";
 
-export class TestResDto {
-    @ApiProperty({ description: 'The ID of the test' })
-    id: string;
+export class UserResDto {
+    @ApiProperty({ description: 'The ID of the user' })
+    id: number;
 
-    @ApiProperty({ description: 'The name of the test' })
-    name: string;
+    @ApiPropertyOptional({ description: 'The first name of the user' })
+    firstName?: string | null;
 
-    @ApiProperty({ description: 'The created at date of the test' })
-    createdAt: Date;
+    @ApiPropertyOptional({ description: 'The last name of the user' })
+    lastName?: string | null;
 
-    @ApiProperty({ description: 'The updated at date of the test' })
-    updatedAt: Date;
+    @ApiProperty({ description: 'The email of the user' })
+    email: string;
 
-    constructor(data: Test) {
+    @ApiProperty({ description: 'The status of the user' })
+    status: UserStatus;
+
+    @ApiProperty({ description: 'The clerk ID of the user' })
+    clerkId: string;
+
+    constructor(data: User) {
         this.id = data.id;
-        this.name = data.name;
-        this.createdAt = data.createdAt;
-        this.updatedAt = data.updatedAt;
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
+        this.email = data.email;
+        this.status = data.status;
+        this.clerkId = data.clerkId;
     }
 }

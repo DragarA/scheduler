@@ -1,0 +1,165 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_getHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The health status"
+          }
+        },
+        "summary": "Get health status",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/health/readiness": {
+      "get": {
+        "operationId": "HealthController_getReadiness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The readiness status"
+          }
+        },
+        "summary": "Get readiness status",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "operationId": "UserController_getUsers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all users",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/user/auth": {
+      "get": {
+        "operationId": "UserController_getUsersAuth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all users",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/webhooks/clerk": {
+      "post": {
+        "operationId": "ClerkWebhookController_handleClerkWebhook",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ClerkWebhook"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Scheduler App API",
+    "description": "Scheduler App API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "scheduler",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "UserResDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the user"
+          },
+          "firstName": {
+            "type": "object",
+            "description": "The first name of the user"
+          },
+          "lastName": {
+            "type": "object",
+            "description": "The last name of the user"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the user"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the user"
+          },
+          "clerkId": {
+            "type": "string",
+            "description": "The clerk ID of the user"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "status",
+          "clerkId"
+        ]
+      }
+    }
+  }
+}

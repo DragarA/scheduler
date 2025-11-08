@@ -11,6 +11,8 @@ const schema = z.object({
   SWAGGER_PASSWORD: z.string(),
   CLERK_SECRET_KEY: z.string(),
   CLERK_PUBLISHABLE_KEY: z.string(),
+  CLERK_WEBHOOK_SECRET: z.string(),
+  CORS_ORIGIN: z.string().optional(),
 });
 
 export type AppConfig = z.infer<typeof schema>;

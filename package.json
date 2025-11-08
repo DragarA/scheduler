@@ -8,7 +8,10 @@
     "dev": "turbo run dev --parallel",
     "build": "turbo run build --parallel",
     "lint": "turbo run lint",
-    "prisma:generate": "cd apps/api && npx prisma generate"
+    "prisma:generate": "cd apps/api && npx prisma generate",
+    "prisma:new-migration": "cd apps/api && npx prisma migrate dev --name",
+    "prisma:migrate": "cd apps/api && npx prisma migrate dev",
+    "sdk:generate": "pnpm --filter @scheduler/sdk build && pnpm --filter @scheduler/sdk generate"
   },
   "keywords": [],
   "author": "",

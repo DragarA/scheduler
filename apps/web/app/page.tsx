@@ -1,6 +1,27 @@
 import Image from "next/image";
+import { auth } from "@clerk/nextjs/server";
+import { createApiClient } from "@/lib/api-client";
 
-export default function Home() {
+export default async function Home() {
+
+  const { userId, getToken } = await auth();
+
+  console.log(userId);
+
+  const token = await getToken();
+  console.log(token);
+
+  const apiClient = createApiClient(token);
+
+  if(userId) {
+    const response = await apiClient.user.userControllerGetUsersAuth();
+    console.log('Auth response:', response);
+  }
+  else {
+    const response = await apiClient.user.userControllerGetUsers();
+    console.log('Unauth response:', response);
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">

@@ -21,3 +21,20 @@ model Test {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model User {
+  id      Int     @id @default(autoincrement())
+  clerkId String  @unique
+  email   String  @unique
+  firstName    String?
+  lastName    String?
+  status UserStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UserStatus {
+  ACTIVE
+  DELETED
+  LOCKED
+}
