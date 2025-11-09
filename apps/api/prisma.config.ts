@@ -1,8 +1,8 @@
 import { defineConfig } from "prisma/config";
 import { ConfigService } from "@nestjs/config";
+import "dotenv/config";
 
 const configService = new ConfigService();
-
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
@@ -10,6 +10,9 @@ export default defineConfig({
   },
   engine: "classic",
   datasource: {
-    url: configService.get<string>("DATABASE_URL") ?? '',
+    url:
+      configService.get<string>("DATABASE_URL") ??
+      process.env.DATABASE_URL ??
+      "",
   },
 });

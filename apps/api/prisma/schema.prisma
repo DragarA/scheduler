@@ -31,10 +31,178 @@ model User {
   status UserStatus @default(ACTIVE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  memberships OrganizationMembership[]
+  locations Location[] @relation("UserLocations")
+  services  Service[]  @relation("UserServices")
+  appointments Appointment[]
+
+
+  @@index([clerkId])
+  @@index([email])
+}
+
+model Organization {
+  id Int @id @default(autoincrement())
+  clerkId String @unique
+  name String
+  slug String
+  status OrganizationStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships OrganizationMembership[]
+  locations Location[]
+  services Service[]
+  customers Customer[]
+  appointments Appointment[]
+  serviceCategories ServiceCategory[]
+
+  @@index([clerkId])
+}
+
+model OrganizationMembership {
+  id Int @id @default(autoincrement())
+  userId Int
+  organizationId Int
+  role OrganizationMembershipRole
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([userId, organizationId])
+  @@index([userId])
+  @@index([organizationId])
+}
+
+model Location {
+  id             Int           @id @default(autoincrement())
+  organizationId Int
+  name           String
+  addressLine1   String?
+  addressLine2   String?
+  city           String?
+  postalCode     String?
+  country        String?       // ISO code if you want
+  timezone       String        @default("Europe/Ljubljana")
+  isDefault      Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  users        User[]      @relation("UserLocations")
+  appointments Appointment[]
+
+  @@index([organizationId])
+}
+
+model ServiceCategory {
+  id             Int           @id @default(autoincrement())
+  organizationId Int
+  name           String
+  sortOrder      Int           @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  services     Service[]
+
+  @@index([organizationId])
+}
+
+model Service {
+  id                     Int           @id @default(autoincrement())
+  organizationId         Int
+  categoryId             Int?
+  name                   String
+  description            String?
+  durationMinutes        Int           // e.g. 30, 60
+  paddingBeforeMinutes   Int           @default(0)
+  paddingAfterMinutes    Int           @default(0)
+  priceCents             Int?
+  currency               String?       // "EUR", "USD"
+  isActive               Boolean       @default(true)
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+
+  organization Organization   @relation(fields: [organizationId], references: [id])
+  category     ServiceCategory? @relation(fields: [categoryId], references: [id])
+
+  users        User[]        @relation("UserServices")
+  appointments Appointment[]
+
+  @@index([organizationId])
+  @@index([categoryId])
+}
+
+model Customer {
+  id             Int           @id @default(autoincrement())
+  organizationId Int
+  email          String?
+  phone          String?
+  firstName      String
+  lastName       String?
+  notes          String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  appointments Appointment[]
+
+  @@index([organizationId])
+  @@index([email])
+  @@index([phone])
+}
+
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+model Appointment {
+  id             Int               @id @default(autoincrement())
+  organizationId Int
+  locationId     Int?
+  serviceId      Int
+  providerId     Int
+  customerId     Int
+  start          DateTime
+  end            DateTime
+  status         AppointmentStatus @default(CONFIRMED)
+  notes          String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  location     Location?    @relation(fields: [locationId], references: [id])
+  service      Service      @relation(fields: [serviceId], references: [id])
+  provider         User         @relation(fields: [providerId], references: [id])
+  customer     Customer     @relation(fields: [customerId], references: [id])
+
+  @@index([organizationId, start])
+  @@index([providerId, start])
+  @@index([customerId, start])
+}
+
+
+enum OrganizationMembershipRole {
+  ADMIN
+  MEMBER
 }
 
 enum UserStatus {
   ACTIVE
   DELETED
   LOCKED
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  DELETED
 }

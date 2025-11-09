@@ -1,86 +1,112 @@
-import Image from "next/image";
-import { auth } from "@clerk/nextjs/server";
-import { createApiClient } from "@/lib/api-client";
+// app/page.tsx
+import Link from "next/link";
+import { ArrowRight, Users, Clock, ShieldCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export default async function Home() {
-
-  const { userId, getToken } = await auth();
-
-  console.log(userId);
-
-  const token = await getToken();
-  console.log(token);
-
-  const apiClient = createApiClient(token);
-
-  if(userId) {
-    const response = await apiClient.user.userControllerGetUsersAuth();
-    console.log('Auth response:', response);
-  }
-  else {
-    const response = await apiClient.user.userControllerGetUsers();
-    console.log('Unauth response:', response);
-  }
-
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <section className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-10 lg:flex-row lg:items-center lg:justify-between lg:px-6 lg:py-20">
+      <div className="max-w-xl space-y-6">
+        <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/5 px-3 py-1 text-xs font-medium text-sky-300">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          Modern scheduling for busy teams
+        </div>
+
+        <div className="space-y-4">
+          <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+            Your time, <span className="text-sky-400">perfectly scheduled</span>
+            .
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-balance text-sm text-slate-300 sm:text-base">
+            Scheduler is your all-in-one booking system inspired by Setmore. Let
+            clients book online, automate reminders, and keep your calendar in
+            sync—without the back-and-forth messages.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div className="flex flex-wrap items-center gap-4">
+          <Button
+            size="lg"
+            asChild
+            className="gap-2 transition-colors hover:bg-sky-500/10 hover:text-sky-400"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <Link href="/get-started">
+              Get started now
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+
+          <p className="text-xs text-slate-400">
+            Free to start. Create your account with Clerk in seconds.
+          </p>
         </div>
-      </main>
-    </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-4 text-xs text-slate-300 sm:text-sm">
+          <div className="flex items-start gap-2">
+            <div className="mt-0.5 rounded-md bg-slate-800/70 p-1">
+              <Users className="h-4 w-4 text-sky-400" />
+            </div>
+            <div>
+              <p className="font-medium text-slate-100">Client self-booking</p>
+              <p className="text-slate-400">
+                Share a booking link and let clients book 24/7.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-start gap-2">
+            <div className="mt-0.5 rounded-md bg-slate-800/70 p-1">
+              <Clock className="h-4 w-4 text-sky-400" />
+            </div>
+            <div>
+              <p className="font-medium text-slate-100">Smart availability</p>
+              <p className="text-slate-400">
+                Define working hours, buffers, and break times per service.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Simple “preview card” */}
+      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-xl shadow-sky-900/30 backdrop-blur">
+        <div className="mb-4 flex items-center justify-between">
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-slate-400">
+            Today&apos;s schedule
+          </p>
+          <span className="rounded-full bg-emerald-500/10 px-2 py-1 text-[11px] font-medium text-emerald-300">
+            Live preview
+          </span>
+        </div>
+
+        <div className="space-y-3 text-sm">
+          <div className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/80 px-3 py-2.5">
+            <div className="space-y-0.5">
+              <p className="font-medium text-slate-100">New client booking</p>
+              <p className="text-xs text-slate-400">
+                10:00–10:30 • Online consult
+              </p>
+            </div>
+            <span className="rounded-full bg-sky-500/15 px-2 py-1 text-[11px] font-medium text-sky-300">
+              Auto-confirmed
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/80 px-3 py-2.5">
+            <div className="space-y-0.5">
+              <p className="font-medium text-slate-100">Reminder sent</p>
+              <p className="text-xs text-slate-400">
+                SMS &amp; email • 24h before
+              </p>
+            </div>
+            <ShieldCheck className="h-4 w-4 text-emerald-400" />
+          </div>
+
+          <div className="mt-4 rounded-xl border border-dashed border-slate-800 bg-slate-900/40 px-3 py-3 text-xs text-slate-400">
+            Connect your services, set your hours, and share your booking page.
+            Scheduler handles confirmations and reminders automatically.
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

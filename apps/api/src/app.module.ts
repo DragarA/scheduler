@@ -7,9 +7,10 @@ import { ConfigModule } from './config/config.module';
 import { LoggerModule } from 'nestjs-pino';
 import { HealthController } from './health/health.controller';
 import { ClerkWebhookModule } from './webhook/clerk/clerk-webhook.module';
-  
+import { OrganizationModule } from './ogranization/organizaiton.module';
+import { OrganizationMembershipModule } from './ogranization/organization-membership/organization-membership.module';
 @Module({
-  imports: [UserModule, PrismaModule, ConfigModule, ClerkWebhookModule, LoggerModule.forRoot({
+  imports: [UserModule, OrganizationModule, OrganizationMembershipModule, PrismaModule, ConfigModule, ClerkWebhookModule, LoggerModule.forRoot({
     pinoHttp: {
       transport: process.env.NODE_ENV === 'development'
         ? { target: 'pino-pretty', options: { singleLine: true } }
