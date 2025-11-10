@@ -36,13 +36,13 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className="dark">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-slate-50`}
         >
-          <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900 flex flex-col">
+          <div className="h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900 flex flex-col overflow-hidden">
             {/* Global nav */}
-            <header className="border-b border-slate-800/60 bg-slate-950/80 backdrop-blur">
+            <header className="shrink-0 border-b border-slate-800/60 bg-slate-950/80 backdrop-blur">
               <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 lg:px-6">
                 <Link href="/" className="flex items-center gap-2">
                   <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-sky-500/10 ring-1 ring-sky-500/40">
@@ -90,11 +90,11 @@ export default function RootLayout({
 
             {/* Page content */}
             <ReactQueryProvider>
-              <main className="flex-1 flex flex-col relative">{children}</main>
+              <main className="flex-1 flex flex-col relative min-h-0 overflow-hidden">{children}</main>
             </ReactQueryProvider>
 
             {/* Global tiny footer */}
-            <footer className="border-t border-slate-800/60 py-4">
+            <footer className="shrink-0 border-t border-slate-800/60 py-4">
               <div className="mx-auto flex max-w-6xl items-center justify-between px-4 text-xs text-slate-500 lg:px-6">
                 <span>© {new Date().getFullYear()} Scheduler</span>
               </div>

@@ -95,6 +95,205 @@
         ]
       }
     },
+    "/services": {
+      "get": {
+        "operationId": "ServiceController_findAll",
+        "parameters": [
+          {
+            "name": "organizationId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by organization ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of services",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all services",
+        "tags": [
+          "services"
+        ]
+      },
+      "post": {
+        "operationId": "ServiceController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Service created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "summary": "Create a new service",
+        "tags": [
+          "services"
+        ]
+      }
+    },
+    "/services/{id}": {
+      "get": {
+        "operationId": "ServiceController_findById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Service ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Service not found"
+          }
+        },
+        "summary": "Get service by ID",
+        "tags": [
+          "services"
+        ]
+      },
+      "put": {
+        "operationId": "ServiceController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Service ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Service not found"
+          }
+        },
+        "summary": "Update a service",
+        "tags": [
+          "services"
+        ]
+      }
+    },
+    "/services/organization/{organizationId}": {
+      "get": {
+        "operationId": "ServiceController_findByOrganizationId",
+        "parameters": [
+          {
+            "name": "organizationId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of services for the organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all services for an organization",
+        "tags": [
+          "services"
+        ]
+      }
+    },
+    "/services/{id}/soft": {
+      "delete": {
+        "operationId": "ServiceController_softDelete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Service ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service deactivated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Service not found"
+          }
+        },
+        "summary": "Soft delete a service (deactivate)",
+        "tags": [
+          "services"
+        ]
+      }
+    },
     "/webhooks/clerk": {
       "post": {
         "operationId": "ClerkWebhookController_handleClerkWebhook",
@@ -158,6 +357,76 @@
           "email",
           "status",
           "clerkId"
+        ]
+      },
+      "ServiceResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Service ID"
+          },
+          "organizationId": {
+            "type": "number",
+            "description": "Organization ID"
+          },
+          "categoryId": {
+            "type": "object",
+            "description": "Category ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Service name"
+          },
+          "description": {
+            "type": "object",
+            "description": "Service description"
+          },
+          "durationMinutes": {
+            "type": "number",
+            "description": "Duration in minutes"
+          },
+          "paddingBeforeMinutes": {
+            "type": "number",
+            "description": "Padding before in minutes"
+          },
+          "paddingAfterMinutes": {
+            "type": "number",
+            "description": "Padding after in minutes"
+          },
+          "priceCents": {
+            "type": "object",
+            "description": "Price in cents"
+          },
+          "currency": {
+            "type": "object",
+            "description": "Currency code"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Is service active"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Created at timestamp"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Updated at timestamp"
+          }
+        },
+        "required": [
+          "id",
+          "organizationId",
+          "name",
+          "durationMinutes",
+          "paddingBeforeMinutes",
+          "paddingAfterMinutes",
+          "isActive",
+          "createdAt",
+          "updatedAt"
         ]
       }
     }
