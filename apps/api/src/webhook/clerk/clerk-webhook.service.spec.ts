@@ -4,16 +4,43 @@ import { OrganizationMembershipModule } from '../../ogranization/organization-me
 import { UserModule } from '../../user/user.module';
 import { OrganizationModule } from '../../ogranization/organizaiton.module';
 import { ConfigModule } from '../../config/config.module';
+import { createPrismaServiceFake } from '../../common/database/prisma/prisma.service.fake';
+import { PrismaService } from '../../common/database/prisma/prisma.service';
+
+// Mock svix Webhook
+jest.mock('svix', () => {
+  return {
+    Webhook: jest.fn().mockImplementation(() => ({
+      verify: jest.fn().mockReturnValue({ type: 'test', data: {} }),
+    })),
+  };
+});
+
 describe('ClerkWebhookService', () => {
   let service: ClerkWebhookService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ClerkWebhookService],
+      providers: [ClerkWebhookService, {
+        provide: PrismaService,
+        useValue: createPrismaServiceFake(),
+      }],
       imports: [ConfigModule, UserModule, OrganizationModule, OrganizationMembershipModule],
     }).compile();
 
     service = module.get<ClerkWebhookService>(ClerkWebhookService);
+    
+    // Spy on service methods
+    jest.spyOn(service, 'handleUserUpsert').mockResolvedValue(undefined);
+    jest.spyOn(service, 'handleUserDeleted').mockResolvedValue(undefined);
+    jest.spyOn(service, 'handleOrganizationUpsert').mockResolvedValue(undefined);
+    jest.spyOn(service, 'handleOrganizationDeleted').mockResolvedValue(undefined);
+    jest.spyOn(service, 'handleOrganizationMembershipUpsert').mockResolvedValue(undefined);
+    jest.spyOn(service, 'handleOrganizationMembershipDeleted').mockResolvedValue(undefined);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {

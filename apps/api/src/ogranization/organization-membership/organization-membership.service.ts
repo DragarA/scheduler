@@ -1,10 +1,10 @@
-import { OrganizationMembershipRole, Prisma } from "../../../generated/prisma/client";
-import { OrganizationMembershipRepository } from "./organization-membership.repository";
+
+import { IOrganizationMembershipCreateInput, OrganizationMembershipRepository } from "./organization-membership.repository";
 
 export class OrganizationMembershipService {
     constructor(private readonly organizationMembershipRepository: OrganizationMembershipRepository) {}
 
-    async upsertOrganizationMembership(organizationMembership: Prisma.OrganizationMembershipCreateInput) {
+    async upsertOrganizationMembership(organizationMembership: IOrganizationMembershipCreateInput) {
         return this.organizationMembershipRepository.upsert(organizationMembership);
     }
 

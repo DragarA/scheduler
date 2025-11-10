@@ -9,8 +9,9 @@ import { HealthController } from './health/health.controller';
 import { ClerkWebhookModule } from './webhook/clerk/clerk-webhook.module';
 import { OrganizationModule } from './ogranization/organizaiton.module';
 import { OrganizationMembershipModule } from './ogranization/organization-membership/organization-membership.module';
+import { ServiceModule } from './scheduling-configuration/service/service.module';
 @Module({
-  imports: [UserModule, OrganizationModule, OrganizationMembershipModule, PrismaModule, ConfigModule, ClerkWebhookModule, LoggerModule.forRoot({
+  imports: [UserModule, OrganizationModule, OrganizationMembershipModule, ServiceModule, PrismaModule, ConfigModule, ClerkWebhookModule, LoggerModule.forRoot({
     pinoHttp: {
       transport: process.env.NODE_ENV === 'development'
         ? { target: 'pino-pretty', options: { singleLine: true } }

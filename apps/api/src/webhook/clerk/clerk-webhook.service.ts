@@ -1,9 +1,8 @@
-import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Webhook } from "svix";
 import {
   OrganizationMembershipRole,
-  User,
   UserStatus,
 } from "../../../generated/prisma/client";
 import { UserService } from "../../user/user.service";
@@ -144,9 +143,22 @@ export class ClerkWebhookService {
         ? OrganizationMembershipRole.ADMIN
         : OrganizationMembershipRole.MEMBER;
 
+    const user = await this.userService.findByClerkId(public_user_data.id);
+    if (!user) {
+      this.logger.error(`User not found in Clerk: ${public_user_data.id}`);
+      throw new NotFoundException(`User not found in Clerk: ${public_user_data.id}`);
+    }
+
+    const dbOrganization = await this.organizationService.findByClerkId(organization.id);
+
+    if (!dbOrganization) {
+      this.logger.error(`Organization not found in Clerk: ${organization.id}`);
+      throw new NotFoundException(`Organization not found in Clerk: ${organization.id}`);
+    }
+
     await this.organizationMembershipService.upsertOrganizationMembership({
-      userId: public_user_data.id,
-      organizationId: organization.id,
+      userId: user.id,
+      organizationId: dbOrganization.id,
       role: dbRole,
     });
 
