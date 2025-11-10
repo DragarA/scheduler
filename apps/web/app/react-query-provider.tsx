@@ -14,7 +14,7 @@ export function ReactQueryProvider({ children }: PropsWithChildren) {
             retry: 1,
           },
         },
-      }),
+      })
   );
 
   return (

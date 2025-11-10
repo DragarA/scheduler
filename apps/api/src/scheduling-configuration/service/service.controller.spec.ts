@@ -111,7 +111,7 @@ describe('ServiceController', () => {
 
     it('should throw NotFoundException when service is not found', async () => {
       mockServiceService.findById.mockRejectedValue(
-        new NotFoundException('Service with ID 999 not found'),
+        new NotFoundException('Service with ID 999 not found')
       );
 
       await expect(controller.findById(999)).rejects.toThrow(NotFoundException);
@@ -176,10 +176,12 @@ describe('ServiceController', () => {
       };
 
       mockServiceService.update.mockRejectedValue(
-        new NotFoundException('Service with ID 999 not found'),
+        new NotFoundException('Service with ID 999 not found')
       );
 
-      await expect(controller.update(999, updateDto)).rejects.toThrow(NotFoundException);
+      await expect(controller.update(999, updateDto)).rejects.toThrow(
+        NotFoundException
+      );
       expect(service.update).toHaveBeenCalledWith(999, updateDto);
     });
   });
@@ -198,12 +200,13 @@ describe('ServiceController', () => {
 
     it('should throw NotFoundException when service is not found', async () => {
       mockServiceService.softDelete.mockRejectedValue(
-        new NotFoundException('Service with ID 999 not found'),
+        new NotFoundException('Service with ID 999 not found')
       );
 
-      await expect(controller.softDelete(999)).rejects.toThrow(NotFoundException);
+      await expect(controller.softDelete(999)).rejects.toThrow(
+        NotFoundException
+      );
       expect(service.softDelete).toHaveBeenCalledWith(999);
     });
   });
 });
-

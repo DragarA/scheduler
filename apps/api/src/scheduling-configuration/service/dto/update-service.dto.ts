@@ -2,14 +2,34 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { z } from 'zod';
 
 export const updateServiceSchema = z.object({
-  categoryId: z.number().int().positive('Category ID must be a positive integer').nullable().optional(),
+  categoryId: z
+    .number()
+    .int()
+    .positive('Category ID must be a positive integer')
+    .nullable()
+    .optional(),
   name: z.string().min(1, 'Service name cannot be empty').optional(),
   description: z.string().optional(),
-  durationMinutes: z.number().int().min(1, 'Duration must be at least 1 minute').optional(),
-  paddingBeforeMinutes: z.number().int().min(0, 'Padding before must be non-negative').optional(),
-  paddingAfterMinutes: z.number().int().min(0, 'Padding after must be non-negative').optional(),
+  durationMinutes: z
+    .number()
+    .int()
+    .min(1, 'Duration must be at least 1 minute')
+    .optional(),
+  paddingBeforeMinutes: z
+    .number()
+    .int()
+    .min(0, 'Padding before must be non-negative')
+    .optional(),
+  paddingAfterMinutes: z
+    .number()
+    .int()
+    .min(0, 'Padding after must be non-negative')
+    .optional(),
   priceCents: z.number().int().min(0, 'Price must be non-negative').optional(),
-  currency: z.string().length(3, 'Currency must be a 3-letter code (e.g., EUR, USD)').optional(),
+  currency: z
+    .string()
+    .length(3, 'Currency must be a 3-letter code (e.g., EUR, USD)')
+    .optional(),
   isActive: z.boolean().optional(),
 });
 
@@ -44,4 +64,3 @@ export class UpdateServiceDtoClass {
   @ApiPropertyOptional({ description: 'Is service active' })
   isActive?: boolean;
 }
-

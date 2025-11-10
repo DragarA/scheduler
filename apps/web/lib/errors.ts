@@ -9,7 +9,12 @@ export type NormalizedError = {
 };
 
 export function isApiError(error: unknown): error is ApiError {
-  return typeof error === 'object' && error !== null && 'status' in error && 'url' in error;
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    'url' in error
+  );
 }
 
 export function normalizeError(error: unknown): NormalizedError {

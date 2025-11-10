@@ -39,8 +39,12 @@ export class ServiceService {
           connect: { id: createServiceDto.categoryId },
         },
       }),
-      ...(createServiceDto.description && { description: createServiceDto.description }),
-      ...(createServiceDto.priceCents !== undefined && { priceCents: createServiceDto.priceCents }),
+      ...(createServiceDto.description && {
+        description: createServiceDto.description,
+      }),
+      ...(createServiceDto.priceCents !== undefined && {
+        priceCents: createServiceDto.priceCents,
+      }),
       ...(createServiceDto.currency && { currency: createServiceDto.currency }),
     };
 
@@ -58,4 +62,3 @@ export class ServiceService {
     return this.serviceRepository.softDelete(id);
   }
 }
-

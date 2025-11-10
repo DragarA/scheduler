@@ -77,6 +77,7 @@ pnpm sdk:generate
 ```
 
 This command:
+
 1. Builds the SDK package
 2. Generates the TypeScript client from the OpenAPI spec
 
@@ -142,4 +143,3 @@ The SDK uses the following configuration options:
 ## License
 
 UNLICENSED
-

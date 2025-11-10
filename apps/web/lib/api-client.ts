@@ -9,7 +9,7 @@ export function createApiClient(token?: string | null) {
     WITH_CREDENTIALS: false,
     CREDENTIALS: 'include',
     TOKEN: token
-      ? async () => token      // openapi-typescript-codegen supports TOKEN as string | () => string | Promise<string>
+      ? async () => token // openapi-typescript-codegen supports TOKEN as string | () => string | Promise<string>
       : undefined,
     USERNAME: undefined,
     PASSWORD: undefined,

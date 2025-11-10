@@ -12,5 +12,5 @@ export const CurrentAuth = createParamDecorator(
   (_: unknown, ctx: ExecutionContext): ClerkAuth => {
     const req = ctx.switchToHttp().getRequest();
     return req.auth() ?? {};
-  },
+  }
 );

@@ -11,14 +11,24 @@ import { OrganizationModule } from './ogranization/organizaiton.module';
 import { OrganizationMembershipModule } from './ogranization/organization-membership/organization-membership.module';
 import { ServiceModule } from './scheduling-configuration/service/service.module';
 @Module({
-  imports: [UserModule, OrganizationModule, OrganizationMembershipModule, ServiceModule, PrismaModule, ConfigModule, ClerkWebhookModule, LoggerModule.forRoot({
-    pinoHttp: {
-      transport: process.env.NODE_ENV === 'development'
-        ? { target: 'pino-pretty', options: { singleLine: true } }
-        : undefined,
-      customProps: (req) => ({ reqId: req.id }),
-    },
-  })],
+  imports: [
+    UserModule,
+    OrganizationModule,
+    OrganizationMembershipModule,
+    ServiceModule,
+    PrismaModule,
+    ConfigModule,
+    ClerkWebhookModule,
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport:
+          process.env.NODE_ENV === 'development'
+            ? { target: 'pino-pretty', options: { singleLine: true } }
+            : undefined,
+        customProps: (req) => ({ reqId: req.id }),
+      },
+    }),
+  ],
   controllers: [AppController, HealthController],
   providers: [AppService],
 })

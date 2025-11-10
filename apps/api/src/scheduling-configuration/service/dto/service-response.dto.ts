@@ -57,4 +57,3 @@ export class ServiceResponseDto {
     this.updatedAt = data.updatedAt;
   }
 }
-

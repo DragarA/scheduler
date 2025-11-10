@@ -4,7 +4,7 @@ import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { z } from 'zod';
 
 const schema = z.object({
-  NODE_ENV: z.enum(['development','test','production']),
+  NODE_ENV: z.enum(['development', 'test', 'production']),
   PORT: z.coerce.number().default(3000),
   DATABASE_URL: z.string(),
   SWAGGER_USERNAME: z.string(),

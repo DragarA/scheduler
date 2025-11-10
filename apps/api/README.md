@@ -22,26 +22,31 @@ A NestJS-based REST API for the Scheduler application, featuring user management
 ## Installation
 
 1. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 2. Copy `.env.example` to `.env` and fill in your environment variables:
+
 ```bash
 cp .env.example .env
 ```
 
 3. Start the PostgreSQL database:
+
 ```bash
 docker-compose up -d
 ```
 
 4. Run database migrations:
+
 ```bash
 pnpm prisma migrate dev
 ```
 
 5. Generate Prisma client:
+
 ```bash
 pnpm prisma generate
 ```
@@ -53,6 +58,7 @@ Copy `.env.example` to `.env` and fill in your values. See `.env.example` for th
 ## Running the Application
 
 ### Development Mode
+
 ```bash
 pnpm dev
 ```
@@ -60,12 +66,14 @@ pnpm dev
 The API will be available at `http://localhost:3000`
 
 ### Production Mode
+
 ```bash
 pnpm build
 pnpm start:prod
 ```
 
 ### Debug Mode
+
 ```bash
 pnpm start:debug
 ```
@@ -88,6 +96,7 @@ docker-compose down -v
 ```
 
 The database will be available at:
+
 - **Host**: `localhost`
 - **Port**: `5434`
 - **Database**: `schedulerDb`
@@ -229,4 +238,3 @@ The application uses Pino for structured logging. In development mode, logs are 
 ## License
 
 UNLICENSED
-

@@ -1,32 +1,32 @@
 // app/layout.tsx
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Link from "next/link";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import Link from 'next/link';
 import {
   ClerkProvider,
   SignedIn,
   SignedOut,
   SignInButton,
   UserButton,
-} from "@clerk/nextjs";
-import { ReactQueryProvider } from "./react-query-provider";
-import { CalendarClock, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+} from '@clerk/nextjs';
+import { ReactQueryProvider } from './react-query-provider';
+import { CalendarClock, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Scheduler",
-  description: "Scheduler – a modern scheduling app inspired by Setmore.",
+  title: 'Scheduler',
+  description: 'Scheduler – a modern scheduling app inspired by Setmore.',
 };
 
 export default function RootLayout({
@@ -79,7 +79,7 @@ export default function RootLayout({
                     <UserButton
                       appearance={{
                         elements: {
-                          avatarBox: "h-8 w-8",
+                          avatarBox: 'h-8 w-8',
                         },
                       }}
                     />

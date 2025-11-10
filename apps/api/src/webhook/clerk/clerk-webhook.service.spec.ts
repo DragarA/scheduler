@@ -21,22 +21,38 @@ describe('ClerkWebhookService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ClerkWebhookService, {
-        provide: PrismaService,
-        useValue: createPrismaServiceFake(),
-      }],
-      imports: [ConfigModule, UserModule, OrganizationModule, OrganizationMembershipModule],
+      providers: [
+        ClerkWebhookService,
+        {
+          provide: PrismaService,
+          useValue: createPrismaServiceFake(),
+        },
+      ],
+      imports: [
+        ConfigModule,
+        UserModule,
+        OrganizationModule,
+        OrganizationMembershipModule,
+      ],
     }).compile();
 
     service = module.get<ClerkWebhookService>(ClerkWebhookService);
-    
+
     // Spy on service methods
     jest.spyOn(service, 'handleUserUpsert').mockResolvedValue(undefined);
     jest.spyOn(service, 'handleUserDeleted').mockResolvedValue(undefined);
-    jest.spyOn(service, 'handleOrganizationUpsert').mockResolvedValue(undefined);
-    jest.spyOn(service, 'handleOrganizationDeleted').mockResolvedValue(undefined);
-    jest.spyOn(service, 'handleOrganizationMembershipUpsert').mockResolvedValue(undefined);
-    jest.spyOn(service, 'handleOrganizationMembershipDeleted').mockResolvedValue(undefined);
+    jest
+      .spyOn(service, 'handleOrganizationUpsert')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(service, 'handleOrganizationDeleted')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(service, 'handleOrganizationMembershipUpsert')
+      .mockResolvedValue(undefined);
+    jest
+      .spyOn(service, 'handleOrganizationMembershipDeleted')
+      .mockResolvedValue(undefined);
   });
 
   afterEach(() => {
@@ -123,7 +139,9 @@ describe('ClerkWebhookService', () => {
       },
     };
     await service.handleEvent(event);
-    expect(service.handleOrganizationMembershipUpsert).toHaveBeenCalledWith(event.data);
+    expect(service.handleOrganizationMembershipUpsert).toHaveBeenCalledWith(
+      event.data
+    );
   });
 
   it('should handle organization membership updated event', async () => {
@@ -136,7 +154,9 @@ describe('ClerkWebhookService', () => {
       },
     };
     await service.handleEvent(event);
-    expect(service.handleOrganizationMembershipUpsert).toHaveBeenCalledWith(event.data);
+    expect(service.handleOrganizationMembershipUpsert).toHaveBeenCalledWith(
+      event.data
+    );
   });
 
   it('should handle organization membership deleted event', async () => {
@@ -148,6 +168,8 @@ describe('ClerkWebhookService', () => {
       },
     };
     await service.handleEvent(event);
-    expect(service.handleOrganizationMembershipDeleted).toHaveBeenCalledWith(event.data);
+    expect(service.handleOrganizationMembershipDeleted).toHaveBeenCalledWith(
+      event.data
+    );
   });
 });

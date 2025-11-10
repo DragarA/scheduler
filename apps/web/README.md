@@ -22,11 +22,13 @@ A Next.js web application for the Scheduler app, featuring authentication via Cl
 ## Installation
 
 1. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 2. Copy `.env.example` to `.env` and fill in your environment variables:
+
 ```bash
 cp .env.example .env
 ```
@@ -38,6 +40,7 @@ Copy `.env.example` to `.env` and fill in your values. See `.env.example` for th
 ## Running the Application
 
 ### Development Mode
+
 ```bash
 pnpm dev
 ```
@@ -45,12 +48,14 @@ pnpm dev
 The application will be available at `http://localhost:3000`
 
 ### Production Build
+
 ```bash
 pnpm build
 pnpm start
 ```
 
 ### Linting
+
 ```bash
 pnpm lint
 ```
@@ -82,6 +87,7 @@ proxy.ts                     # Clerk middleware configuration
 ### Authentication
 
 The app uses Clerk for authentication. The root layout includes:
+
 - `ClerkProvider` wrapper for authentication context
 - Sign in/Sign up buttons for unauthenticated users
 - User button for authenticated users
@@ -91,6 +97,7 @@ The app uses Clerk for authentication. The root layout includes:
 The app uses a generated SDK (`@scheduler/sdk`) from the OpenAPI specification. The API client is configured in `lib/api-client.ts` and automatically includes authentication tokens when available.
 
 Example usage:
+
 ```typescript
 import { createApiClient } from '@/lib/api-client';
 
@@ -103,15 +110,16 @@ const users = await apiClient.user.userControllerGetUsers();
 The app uses TanStack React Query for server state management. Custom hooks are available in the `hooks/` directory.
 
 Example:
+
 ```typescript
 import { useGetUsersQuery } from '@/hooks/users/get-users-query';
 
 function UsersList() {
   const { data, isLoading, error } = useGetUsersQuery();
-  
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading users</div>;
-  
+
   return <div>{/* render users */}</div>;
 }
 ```
@@ -119,6 +127,7 @@ function UsersList() {
 ### Styling
 
 The app uses Tailwind CSS 4 for styling with:
+
 - Dark mode support
 - Responsive design utilities
 - Custom font configuration (Geist Sans and Geist Mono)
@@ -128,6 +137,7 @@ The app uses Tailwind CSS 4 for styling with:
 ### Code Formatting
 
 The project uses ESLint for code quality. Run:
+
 ```bash
 pnpm lint
 ```
@@ -135,6 +145,7 @@ pnpm lint
 ### TypeScript
 
 The project is fully typed with TypeScript. Type checking happens during build:
+
 ```bash
 pnpm build
 ```
@@ -155,6 +166,7 @@ The API URL is configured via the `NEXT_PUBLIC_API_URL` environment variable.
 ## React Query Configuration
 
 The React Query provider is configured with:
+
 - Default stale time: 30 seconds
 - Retry attempts: 1
 - React Query Devtools enabled in development
@@ -169,4 +181,3 @@ The React Query provider is configured with:
 ## License
 
 UNLICENSED
-

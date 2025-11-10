@@ -1,6 +1,5 @@
 {
-    "name": "@scheduler-app/schemas",
-    "version": "1.0.0",
-    "main": "index.ts"
-  }
-  
+  "name": "@scheduler-app/schemas",
+  "version": "1.0.0",
+  "main": "index.ts"
+}

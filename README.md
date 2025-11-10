@@ -27,11 +27,13 @@ This monorepo contains:
 ## Tech Stack
 
 ### Monorepo Tools
+
 - **Package Manager**: pnpm workspaces
 - **Build System**: Turbo
 - **Language**: TypeScript
 
 ### Backend (API)
+
 - NestJS
 - PostgreSQL with Prisma ORM
 - Clerk for authentication
@@ -39,6 +41,7 @@ This monorepo contains:
 - Pino for logging
 
 ### Frontend (Web)
+
 - Next.js 16
 - React 19
 - Tailwind CSS 4
@@ -112,6 +115,7 @@ pnpm dev
 ```
 
 This will start both the API and Web applications in parallel:
+
 - API: `http://localhost:3000`
 - Web: `http://localhost:3001` (or as configured)
 
@@ -171,6 +175,7 @@ pnpm sdk:generate
 ```
 
 This command:
+
 1. Builds the SDK package
 2. Generates TypeScript client from `apps/api/openapi.json`
 
@@ -224,6 +229,7 @@ scheduler-app/
 TypeScript SDK generated from the API's OpenAPI specification. Used by the web app for type-safe API calls.
 
 **Usage:**
+
 ```typescript
 import { SchedulerApiClient } from '@scheduler/sdk';
 ```
@@ -237,6 +243,7 @@ Shared schemas and types used across the monorepo.
 ### Required Environment Variables
 
 #### API (`apps/api/.env`)
+
 - `DATABASE_URL` - PostgreSQL connection string
 - `CLERK_PUBLISHABLE_KEY` - Clerk publishable key
 - `CLERK_SECRET_KEY` - Clerk secret key
@@ -246,6 +253,7 @@ Shared schemas and types used across the monorepo.
 - `NODE_ENV` - Environment (development/production)
 
 #### Web (`apps/web/.env`)
+
 - `NEXT_PUBLIC_API_URL` - API server URL
 - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - Clerk publishable key
 - `CLERK_SECRET_KEY` - Clerk secret key
@@ -301,4 +309,3 @@ Or deploy to platforms like Vercel (recommended for Next.js).
 ## License
 
 UNLICENSED
-

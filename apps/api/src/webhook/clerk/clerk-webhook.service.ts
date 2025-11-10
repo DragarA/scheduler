@@ -1,14 +1,19 @@
-import { Injectable, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { Webhook } from "svix";
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Webhook } from 'svix';
 import {
   OrganizationMembershipRole,
   UserStatus,
-} from "../../../generated/prisma/client";
-import { UserService } from "../../user/user.service";
-import { OrganizationService } from "../../ogranization/organization.service";
-import { OrganizationMembershipService } from "../../ogranization/organization-membership/organization-membership.service";
-import { ClerkPermission } from "../../common/enums/clerk-permission.enum";
+} from '../../../generated/prisma/client';
+import { UserService } from '../../user/user.service';
+import { OrganizationService } from '../../ogranization/organization.service';
+import { OrganizationMembershipService } from '../../ogranization/organization-membership/organization-membership.service';
+import { ClerkPermission } from '../../common/enums/clerk-permission.enum';
 
 @Injectable()
 export class ClerkWebhookService {
@@ -22,25 +27,25 @@ export class ClerkWebhookService {
     private readonly organizationMembershipService: OrganizationMembershipService
   ) {
     this.webhook = new Webhook(
-      this.configService.get("CLERK_WEBHOOK_SECRET") ?? ""
+      this.configService.get('CLERK_WEBHOOK_SECRET') ?? ''
     );
   }
 
   verifyAndParse(payload: string, headers: Record<string, string>) {
-    const svixId = headers["svix-id"];
-    const svixTimestamp = headers["svix-timestamp"];
-    const svixSignature = headers["svix-signature"];
+    const svixId = headers['svix-id'];
+    const svixTimestamp = headers['svix-timestamp'];
+    const svixSignature = headers['svix-signature'];
 
     if (!svixId || !svixTimestamp || !svixSignature) {
-      this.logger.warn("Missing Svix headers on Clerk webhook");
-      throw new UnauthorizedException("Missing Svix headers");
+      this.logger.warn('Missing Svix headers on Clerk webhook');
+      throw new UnauthorizedException('Missing Svix headers');
     }
 
     try {
       const event = this.webhook.verify(payload, {
-        "svix-id": svixId,
-        "svix-timestamp": svixTimestamp,
-        "svix-signature": svixSignature,
+        'svix-id': svixId,
+        'svix-timestamp': svixTimestamp,
+        'svix-signature': svixSignature,
       });
 
       return event as {
@@ -48,8 +53,8 @@ export class ClerkWebhookService {
         data: any;
       };
     } catch (err) {
-      this.logger.error("Failed to verify Clerk webhook", err as any);
-      throw new UnauthorizedException("Invalid webhook signature");
+      this.logger.error('Failed to verify Clerk webhook', err as any);
+      throw new UnauthorizedException('Invalid webhook signature');
     }
   }
 
@@ -57,25 +62,25 @@ export class ClerkWebhookService {
     this.logger.log(`Received Clerk event: ${event.type}`);
 
     switch (event.type) {
-      case "user.created":
-      case "user.updated":
+      case 'user.created':
+      case 'user.updated':
         await this.handleUserUpsert(event.data);
         break;
-      case "user.deleted":
+      case 'user.deleted':
         await this.handleUserDeleted(event.data);
         break;
-      case "organization.created":
-      case "organization.updated":
+      case 'organization.created':
+      case 'organization.updated':
         await this.handleOrganizationUpsert(event.data);
         break;
-      case "organization.deleted":
+      case 'organization.deleted':
         await this.handleOrganizationDeleted(event.data);
         break;
-      case "organization_membership.created":
-      case "organization_membership.updated":
+      case 'organization_membership.created':
+      case 'organization_membership.updated':
         await this.handleOrganizationMembershipUpsert(event.data);
         break;
-      case "organization_membership.deleted":
+      case 'organization_membership.deleted':
         await this.handleOrganizationMembershipDeleted(event.data);
         break;
       default:
@@ -146,14 +151,20 @@ export class ClerkWebhookService {
     const user = await this.userService.findByClerkId(public_user_data.id);
     if (!user) {
       this.logger.error(`User not found in Clerk: ${public_user_data.id}`);
-      throw new NotFoundException(`User not found in Clerk: ${public_user_data.id}`);
+      throw new NotFoundException(
+        `User not found in Clerk: ${public_user_data.id}`
+      );
     }
 
-    const dbOrganization = await this.organizationService.findByClerkId(organization.id);
+    const dbOrganization = await this.organizationService.findByClerkId(
+      organization.id
+    );
 
     if (!dbOrganization) {
       this.logger.error(`Organization not found in Clerk: ${organization.id}`);
-      throw new NotFoundException(`Organization not found in Clerk: ${organization.id}`);
+      throw new NotFoundException(
+        `Organization not found in Clerk: ${organization.id}`
+      );
     }
 
     await this.organizationMembershipService.upsertOrganizationMembership({

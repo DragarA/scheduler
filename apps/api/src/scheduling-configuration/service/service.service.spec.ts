@@ -110,7 +110,9 @@ describe('ServiceService', () => {
       mockRepository.findById.mockResolvedValue(null);
 
       await expect(service.findById(999)).rejects.toThrow(NotFoundException);
-      await expect(service.findById(999)).rejects.toThrow('Service with ID 999 not found');
+      await expect(service.findById(999)).rejects.toThrow(
+        'Service with ID 999 not found'
+      );
       expect(repository.findById).toHaveBeenCalledWith(999);
     });
   });
@@ -200,7 +202,11 @@ describe('ServiceService', () => {
         durationMinutes: 45,
       };
 
-      const updatedService = { ...mockService, name: 'Updated Service', durationMinutes: 45 };
+      const updatedService = {
+        ...mockService,
+        name: 'Updated Service',
+        durationMinutes: 45,
+      };
       mockRepository.findById.mockResolvedValue(mockService);
       mockRepository.update.mockResolvedValue(updatedService);
 
@@ -219,7 +225,9 @@ describe('ServiceService', () => {
 
       mockRepository.findById.mockResolvedValue(null);
 
-      await expect(service.update(999, updateDto)).rejects.toThrow(NotFoundException);
+      await expect(service.update(999, updateDto)).rejects.toThrow(
+        NotFoundException
+      );
       expect(repository.findById).toHaveBeenCalledWith(999);
       expect(repository.update).not.toHaveBeenCalled();
     });
@@ -247,4 +255,3 @@ describe('ServiceService', () => {
     });
   });
 });
-
