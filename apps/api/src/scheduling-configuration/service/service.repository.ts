@@ -8,7 +8,10 @@ export class ServiceRepository {
 
   async findAll(organizationId?: number): Promise<Service[]> {
     return this.prisma.service.findMany({
-      where: organizationId ? { organizationId } : undefined,
+      where: {
+        organizationId: organizationId ?? undefined,
+        isActive: true,
+      },
       include: {
         category: true,
         organization: true,

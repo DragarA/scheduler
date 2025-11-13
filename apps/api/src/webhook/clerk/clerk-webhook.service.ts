@@ -13,7 +13,46 @@ import {
 import { UserService } from '../../user/user.service';
 import { OrganizationService } from '../../ogranization/organization.service';
 import { OrganizationMembershipService } from '../../ogranization/organization-membership/organization-membership.service';
-import { ClerkPermission } from '../../common/enums/clerk-permission.enum';
+import { ClerkUserRoleEnum } from '../../common/enums/clerk-user-role.enum';
+
+interface ClerkUserEventData {
+  id: string;
+  email_addresses: { id: string; email_address: string }[];
+  first_name: string;
+  last_name: string;
+  locked: boolean;
+  primary_email_address_id: string;
+}
+
+interface ClerkOrganizationEventData {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+interface ClerkUserDeletedEventData {
+  id: string;
+}
+
+interface ClerkOrganizationDeletedEventData {
+  id: string;
+}
+
+interface ClerkOrganizationMembershipEventData {
+  organization: { id: string };
+  public_user_data: { id: string };
+  role: ClerkUserRoleEnum;
+}
+
+interface ClerkEvent {
+  type: string;
+  data:
+    | ClerkUserEventData
+    | ClerkOrganizationEventData
+    | ClerkOrganizationMembershipEventData
+    | ClerkUserDeletedEventData
+    | ClerkOrganizationDeletedEventData
+}
 
 @Injectable()
 export class ClerkWebhookService {
@@ -53,42 +92,42 @@ export class ClerkWebhookService {
         data: any;
       };
     } catch (err) {
-      this.logger.error('Failed to verify Clerk webhook', err as any);
+      this.logger.error('Failed to verify Clerk webhook', err);
       throw new UnauthorizedException('Invalid webhook signature');
     }
   }
 
-  async handleEvent(event: { type: string; data: any }) {
+  async handleEvent(event: ClerkEvent) {
     this.logger.log(`Received Clerk event: ${event.type}`);
 
     switch (event.type) {
       case 'user.created':
       case 'user.updated':
-        await this.handleUserUpsert(event.data);
+        await this.handleUserUpsert(event.data as ClerkUserEventData);
         break;
       case 'user.deleted':
-        await this.handleUserDeleted(event.data);
+        await this.handleUserDeleted(event.data as ClerkUserDeletedEventData);
         break;
       case 'organization.created':
       case 'organization.updated':
-        await this.handleOrganizationUpsert(event.data);
+        await this.handleOrganizationUpsert(event.data as ClerkOrganizationEventData);
         break;
       case 'organization.deleted':
-        await this.handleOrganizationDeleted(event.data);
+        await this.handleOrganizationDeleted(event.data as ClerkOrganizationDeletedEventData);
         break;
       case 'organization_membership.created':
       case 'organization_membership.updated':
-        await this.handleOrganizationMembershipUpsert(event.data);
+        await this.handleOrganizationMembershipUpsert(event.data as ClerkOrganizationMembershipEventData);
         break;
       case 'organization_membership.deleted':
-        await this.handleOrganizationMembershipDeleted(event.data);
+        await this.handleOrganizationMembershipDeleted(event.data as ClerkOrganizationMembershipEventData);
         break;
       default:
         this.logger.log(`Unhandled Clerk event type: ${event.type}`);
     }
   }
 
-  async handleUserUpsert(data: any) {
+  async handleUserUpsert(data: ClerkUserEventData) {
     // Extract the fields you care about from Clerk
     const {
       id: clerkUserId,
@@ -115,7 +154,7 @@ export class ClerkWebhookService {
     this.logger.log(`User created in Clerk: ${clerkUserId} (${primaryEmail})`);
   }
 
-  async handleOrganizationUpsert(data: any) {
+  async handleOrganizationUpsert(data: ClerkOrganizationEventData) {
     // Extract the fields you care about from Clerk
     const { id: clerkOrganizationId, name, slug } = data;
 
@@ -132,7 +171,7 @@ export class ClerkWebhookService {
     );
   }
 
-  async handleOrganizationDeleted(data: any) {
+  async handleOrganizationDeleted(data: ClerkOrganizationDeletedEventData) {
     const { id: clerkOrganizationId } = data;
 
     await this.organizationService.softDelete(clerkOrganizationId);
@@ -140,11 +179,11 @@ export class ClerkWebhookService {
     this.logger.log(`Organization deleted in Clerk: ${clerkOrganizationId}`);
   }
 
-  async handleOrganizationMembershipUpsert(data: any) {
+  async handleOrganizationMembershipUpsert(data: ClerkOrganizationMembershipEventData) {
     const { organization, public_user_data, role } = data;
 
     const dbRole =
-      role === ClerkPermission.ADMIN
+      role === ClerkUserRoleEnum.ADMIN
         ? OrganizationMembershipRole.ADMIN
         : OrganizationMembershipRole.MEMBER;
 
@@ -178,12 +217,31 @@ export class ClerkWebhookService {
     );
   }
 
-  async handleOrganizationMembershipDeleted(data: any) {
+  async handleOrganizationMembershipDeleted(data: ClerkOrganizationMembershipEventData) {
     const { organization, public_user_data } = data;
 
-    await this.organizationMembershipService.deleteOrganizationMembership(
-      public_user_data.id,
+    const user = await this.userService.findByClerkId(public_user_data.id);
+    if (!user) {
+      this.logger.error(`User not found in Clerk: ${public_user_data.id}`);
+      throw new NotFoundException(
+        `User not found in Clerk: ${public_user_data.id}`
+      );
+    }
+
+    const dbOrganization = await this.organizationService.findByClerkId(
       organization.id
+    );
+
+    if (!dbOrganization) {
+      this.logger.error(`Organization not found in Clerk: ${organization.id}`);
+      throw new NotFoundException(
+        `Organization not found in Clerk: ${organization.id}`
+      );
+    }
+
+    await this.organizationMembershipService.deleteOrganizationMembership(
+      user.id,
+      dbOrganization.id
     );
 
     this.logger.log(
@@ -191,7 +249,7 @@ export class ClerkWebhookService {
     );
   }
 
-  async handleUserDeleted(data: any) {
+  async handleUserDeleted(data: ClerkUserDeletedEventData) {
     const { id: clerkUserId } = data;
 
     await this.userService.softDeleteUserByClerkId(clerkUserId);

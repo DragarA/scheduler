@@ -132,6 +132,16 @@
       "post": {
         "operationId": "ServiceController_create",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceDtoClass"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Service created successfully",
@@ -200,6 +210,16 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceDtoClass"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Service updated successfully",
@@ -371,7 +391,7 @@
             "description": "Organization ID"
           },
           "categoryId": {
-            "type": "object",
+            "type": "number",
             "description": "Category ID"
           },
           "name": {
@@ -379,7 +399,7 @@
             "description": "Service name"
           },
           "description": {
-            "type": "object",
+            "type": "string",
             "description": "Service description"
           },
           "durationMinutes": {
@@ -395,11 +415,11 @@
             "description": "Padding after in minutes"
           },
           "priceCents": {
-            "type": "object",
+            "type": "number",
             "description": "Price in cents"
           },
           "currency": {
-            "type": "object",
+            "type": "string",
             "description": "Currency code"
           },
           "isActive": {
@@ -428,6 +448,100 @@
           "createdAt",
           "updatedAt"
         ]
+      },
+      "CreateServiceDtoClass": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "number",
+            "description": "Organization ID"
+          },
+          "categoryId": {
+            "type": "number",
+            "description": "Category ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Service name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Service description"
+          },
+          "durationMinutes": {
+            "type": "number",
+            "description": "Duration in minutes"
+          },
+          "paddingBeforeMinutes": {
+            "type": "number",
+            "description": "Padding before in minutes",
+            "default": 0
+          },
+          "paddingAfterMinutes": {
+            "type": "number",
+            "description": "Padding after in minutes",
+            "default": 0
+          },
+          "priceCents": {
+            "type": "number",
+            "description": "Price in cents"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (e.g., EUR, USD)"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Is service active",
+            "default": true
+          }
+        },
+        "required": [
+          "organizationId",
+          "name",
+          "durationMinutes"
+        ]
+      },
+      "UpdateServiceDtoClass": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "number",
+            "description": "Category ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Service name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Service description"
+          },
+          "durationMinutes": {
+            "type": "number",
+            "description": "Duration in minutes"
+          },
+          "paddingBeforeMinutes": {
+            "type": "number",
+            "description": "Padding before in minutes"
+          },
+          "paddingAfterMinutes": {
+            "type": "number",
+            "description": "Padding after in minutes"
+          },
+          "priceCents": {
+            "type": "number",
+            "description": "Price in cents"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (e.g., EUR, USD)"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Is service active"
+          }
+        }
       }
     }
   }

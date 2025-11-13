@@ -29,6 +29,12 @@ async function bootstrap() {
     })
   );
 
+  // Global JSON body parser for all routes
+  app.use(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    json()
+  );
+
   app.use(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     urlencoded({

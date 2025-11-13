@@ -11,7 +11,6 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
 import {
   ApiOperation,
@@ -19,10 +18,11 @@ import {
   ApiTags,
   ApiParam,
   ApiQuery,
+  ApiBody,
 } from '@nestjs/swagger';
 import { ServiceService } from './service.service';
-import { createServiceSchema } from './dto/create-service.dto';
-import { updateServiceSchema } from './dto/update-service.dto';
+import { CreateServiceDtoClass, createServiceSchema } from './dto/create-service.dto';
+import { UpdateServiceDtoClass, updateServiceSchema } from './dto/update-service.dto';
 import type { CreateServiceDto } from './dto/create-service.dto';
 import type { UpdateServiceDto } from './dto/update-service.dto';
 import { ServiceResponseDto } from './dto/service-response.dto';
@@ -93,25 +93,25 @@ export class ServiceController {
   }
 
   @Post()
-  @UsePipes(new ZodValidationPipe(createServiceSchema))
   @ApiOperation({ summary: 'Create a new service' })
   @ApiResponse({
     status: 201,
     description: 'Service created successfully',
     type: ServiceResponseDto,
   })
+  @ApiBody({ type: CreateServiceDtoClass })
   @ApiResponse({ status: 400, description: 'Bad request' })
   async create(
-    @Body() createServiceDto: CreateServiceDto
+    @Body(new ZodValidationPipe(createServiceSchema)) createServiceDto: CreateServiceDto
   ): Promise<ServiceResponseDto> {
     const result = await this.serviceService.create(createServiceDto);
     return new ServiceResponseDto(result);
   }
 
   @Put(':id')
-  @UsePipes(new ZodValidationPipe(updateServiceSchema))
   @ApiOperation({ summary: 'Update a service' })
   @ApiParam({ name: 'id', type: Number, description: 'Service ID' })
+  @ApiBody({ type: UpdateServiceDtoClass })
   @ApiResponse({
     status: 200,
     description: 'Service updated successfully',
@@ -121,7 +121,7 @@ export class ServiceController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateServiceDto: UpdateServiceDto
+    @Body(new ZodValidationPipe(updateServiceSchema)) updateServiceDto: UpdateServiceDto
   ): Promise<ServiceResponseDto> {
     const result = await this.serviceService.update(id, updateServiceDto);
     return new ServiceResponseDto(result);

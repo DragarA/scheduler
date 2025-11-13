@@ -9,13 +9,13 @@ export class ServiceResponseDto {
   organizationId: number;
 
   @ApiPropertyOptional({ description: 'Category ID' })
-  categoryId?: number | null;
+  categoryId?: number;
 
   @ApiProperty({ description: 'Service name' })
   name: string;
 
   @ApiPropertyOptional({ description: 'Service description' })
-  description?: string | null;
+  description?: string;
 
   @ApiProperty({ description: 'Duration in minutes' })
   durationMinutes: number;
@@ -27,10 +27,10 @@ export class ServiceResponseDto {
   paddingAfterMinutes: number;
 
   @ApiPropertyOptional({ description: 'Price in cents' })
-  priceCents?: number | null;
+  priceCents?: number;
 
   @ApiPropertyOptional({ description: 'Currency code' })
-  currency?: string | null;
+  currency?: string;
 
   @ApiProperty({ description: 'Is service active' })
   isActive: boolean;
@@ -44,14 +44,14 @@ export class ServiceResponseDto {
   constructor(data: Service) {
     this.id = data.id;
     this.organizationId = data.organizationId;
-    this.categoryId = data.categoryId;
+    this.categoryId = data.categoryId ?? undefined;
     this.name = data.name;
-    this.description = data.description;
+    this.description = data.description ?? undefined;
     this.durationMinutes = data.durationMinutes;
     this.paddingBeforeMinutes = data.paddingBeforeMinutes;
     this.paddingAfterMinutes = data.paddingAfterMinutes;
-    this.priceCents = data.priceCents;
-    this.currency = data.currency;
+    this.priceCents = data.priceCents ?? undefined;
+    this.currency = data.currency ?? undefined;
     this.isActive = data.isActive;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;

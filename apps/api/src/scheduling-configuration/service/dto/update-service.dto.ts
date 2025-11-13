@@ -38,7 +38,7 @@ export type UpdateServiceDto = z.infer<typeof updateServiceSchema>;
 // Class for Swagger documentation
 export class UpdateServiceDtoClass {
   @ApiPropertyOptional({ description: 'Category ID' })
-  categoryId?: number | null;
+  categoryId?: number;
 
   @ApiPropertyOptional({ description: 'Service name' })
   name?: string;

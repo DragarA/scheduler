@@ -12,7 +12,10 @@ export class ClerkAuthGuard implements CanActivate {
     const req = ctx.switchToHttp().getRequest();
     // Clerk middleware attaches req.auth as a function
     const userId = req?.auth?.()?.userId;
-    if (userId) return true;
+    if (userId) {
+      req.clerkUserId = userId;
+      return true
+    }
     throw new UnauthorizedException('Missing or invalid Clerk auth');
   }
 }
