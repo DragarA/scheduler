@@ -10,12 +10,14 @@ import { ClerkWebhookModule } from './webhook/clerk/clerk-webhook.module';
 import { OrganizationModule } from './ogranization/organizaiton.module';
 import { OrganizationMembershipModule } from './ogranization/organization-membership/organization-membership.module';
 import { ServiceModule } from './scheduling-configuration/service/service.module';
+import { AppointmentModule } from './appointments/appointment.module';
 @Module({
   imports: [
     UserModule,
     OrganizationModule,
     OrganizationMembershipModule,
     ServiceModule,
+    AppointmentModule,
     PrismaModule,
     ConfigModule,
     ClerkWebhookModule,

@@ -6,14 +6,16 @@ export function createApiClient(token?: string | null) {
   const config: OpenAPIConfig = {
     BASE: BASE_URL,
     VERSION: '1.0.0',
-    WITH_CREDENTIALS: false,
+    WITH_CREDENTIALS: true,
     CREDENTIALS: 'include',
     TOKEN: token
       ? async () => token // openapi-typescript-codegen supports TOKEN as string | () => string | Promise<string>
       : undefined,
     USERNAME: undefined,
     PASSWORD: undefined,
-    HEADERS: undefined,
+    HEADERS: token ? {
+      'Authorization': `Bearer ${token}`,
+    } : undefined,
   };
 
   return new SchedulerApiClient(config);
