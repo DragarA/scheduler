@@ -96,17 +96,17 @@ export default function DashboardLayout({
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
-        <SidebarInset className="flex flex-col h-full overflow-hidden bg-background">
-          <header className="flex h-16 shrink-0 items-center gap-4 border-b border-slate-800/60 bg-slate-950 px-4">
-            <SidebarTrigger className="-ml-1" />
+        <SidebarInset className="flex flex-col h-full overflow-hidden bg-slate-950">
+          <header className="flex h-16 shrink-0 items-center gap-4 border-b border-slate-800 bg-slate-900 px-4">
+            <SidebarTrigger className="-ml-1 text-slate-400 hover:text-slate-100" />
             <Breadcrumb>
-              <BreadcrumbList className="text-slate-400">
+              <BreadcrumbList>
                 {breadcrumbs.map((crumb, index) => (
                   <React.Fragment key={crumb.href}>
                     {index > 0 && <BreadcrumbSeparator className="text-slate-600" />}
                     <BreadcrumbItem>
                       {index === breadcrumbs.length - 1 ? (
-                        <BreadcrumbPage className="text-slate-50">{crumb.name}</BreadcrumbPage>
+                        <BreadcrumbPage className="text-slate-100">{crumb.name}</BreadcrumbPage>
                       ) : (
                         <BreadcrumbLink asChild className="text-slate-400 hover:text-slate-200">
                           <Link href={crumb.href}>{crumb.name}</Link>

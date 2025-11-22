@@ -103,25 +103,25 @@ export default function AppointmentsPage() {
   if (isLoading && !data) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-bold">Appointments</h1>
+        <h1 className="text-2xl font-bold text-slate-100">Appointments</h1>
         <div className="flex gap-4 mb-4">
           <Skeleton className="h-10 w-64" />
           <Skeleton className="h-10 w-48" />
         </div>
-        <div className="rounded-md border">
+        <div className="rounded-md border border-slate-800 bg-slate-900/30">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Date & Time</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Service</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
+              <TableRow className="border-slate-800">
+                <TableHead className="text-slate-400">Date & Time</TableHead>
+                <TableHead className="text-slate-400">Customer</TableHead>
+                <TableHead className="text-slate-400">Service</TableHead>
+                <TableHead className="text-slate-400">Status</TableHead>
+                <TableHead className="text-slate-400">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {[1, 2, 3, 4, 5].map((i) => (
-                <TableRow key={i}>
+                <TableRow key={i} className="border-slate-800">
                   <TableCell>
                     <Skeleton className="h-4 w-32" />
                   </TableCell>
@@ -149,9 +149,9 @@ export default function AppointmentsPage() {
   if (error) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-bold">Appointments</h1>
-        <div className="rounded-md border border-destructive p-4">
-          <p className="text-destructive">
+        <h1 className="text-2xl font-bold text-slate-100">Appointments</h1>
+        <div className="rounded-md border border-red-900 bg-red-950/30 p-4">
+          <p className="text-red-400">
             Error loading appointments:{' '}
             {error instanceof Error ? error.message : 'Unknown error'}
           </p>
@@ -169,11 +169,11 @@ export default function AppointmentsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Appointments</h1>
+        <h1 className="text-2xl font-bold text-slate-100">Appointments</h1>
         {isFetching ? (
-          <span className="text-sm text-muted-foreground">Searching...</span>
+          <span className="text-sm text-slate-400">Searching...</span>
         ) : isSearchPending ? (
-          <span className="text-sm text-muted-foreground">Typing...</span>
+          <span className="text-sm text-slate-400">Typing...</span>
         ) : null}
       </div>
 
@@ -256,15 +256,15 @@ export default function AppointmentsPage() {
       {/* Active Filters Display */}
       {statusFilter.length > 0 && (
         <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm text-muted-foreground">Active filters:</span>
+          <span className="text-sm text-slate-400">Active filters:</span>
           {statusFilter.map((status) => {
             const option = STATUS_OPTIONS.find((opt) => opt.value === status);
             return (
-              <Badge key={status} variant="secondary" className="gap-1">
+              <Badge key={status} variant="secondary" className="gap-1 bg-slate-800 text-slate-300 border-slate-700">
                 {option?.label}
                 <button
                   onClick={() => handleStatusToggle(status)}
-                  className="ml-1 hover:bg-secondary-foreground/20 rounded-full"
+                  className="ml-1 hover:bg-slate-700 rounded-full"
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -275,15 +275,15 @@ export default function AppointmentsPage() {
       )}
 
       {/* Table */}
-      <div className="rounded-md border">
+      <div className="rounded-md border border-slate-800 bg-slate-900/30">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Date & Time</TableHead>
-              <TableHead>Customer</TableHead>
-              <TableHead>Service</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
+            <TableRow className="border-slate-800 hover:bg-slate-900/50">
+              <TableHead className="text-slate-400">Date & Time</TableHead>
+              <TableHead className="text-slate-400">Customer</TableHead>
+              <TableHead className="text-slate-400">Service</TableHead>
+              <TableHead className="text-slate-400">Status</TableHead>
+              <TableHead className="text-slate-400">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -294,17 +294,17 @@ export default function AppointmentsPage() {
                 }`.trim();
 
                 return (
-                  <TableRow key={appointment.id}>
-                    <TableCell className="font-medium">
+                  <TableRow key={appointment.id} className="border-slate-800 hover:bg-slate-800/30">
+                    <TableCell className="font-medium text-slate-300">
                       {formatDateTime(appointment.start)}
                     </TableCell>
-                    <TableCell>{customerName}</TableCell>
-                    <TableCell>{appointment.service.name}</TableCell>
+                    <TableCell className="text-slate-200">{customerName}</TableCell>
+                    <TableCell className="text-slate-300">{appointment.service.name}</TableCell>
                     <TableCell>
                       <AppointmentStatusBadge status={appointment.status} />
                     </TableCell>
                     <TableCell>
-                      <Button asChild variant="outline" size="sm">
+                      <Button asChild variant="outline" size="sm" className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-slate-100">
                         <Link href={`/dashboard/appointments/${appointment.id}`}>
                           View Details
                         </Link>
@@ -314,10 +314,10 @@ export default function AppointmentsPage() {
                 );
               })
             ) : (
-              <TableRow>
+              <TableRow className="border-slate-800">
                 <TableCell
                   colSpan={5}
-                  className="text-center text-muted-foreground py-8"
+                  className="text-center text-slate-400 py-8"
                 >
                   No appointments found
                 </TableCell>
@@ -330,7 +330,7 @@ export default function AppointmentsPage() {
       {/* Pagination */}
       {appointments.length > 0 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-slate-400">
             Showing {(page - 1) * limit + 1} to{' '}
             {Math.min(page * limit, total)} of {total} appointments
           </p>
@@ -340,11 +340,12 @@ export default function AppointmentsPage() {
               size="sm"
               onClick={() => setPage(page - 1)}
               disabled={page === 1}
+              className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-slate-100 disabled:opacity-50"
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
               Previous
             </Button>
-            <span className="text-sm">
+            <span className="text-sm text-slate-300">
               Page {page} of {totalPages}
             </span>
             <Button
@@ -352,6 +353,7 @@ export default function AppointmentsPage() {
               size="sm"
               onClick={() => setPage(page + 1)}
               disabled={page >= totalPages}
+              className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-slate-100 disabled:opacity-50"
             >
               Next
               <ChevronRight className="h-4 w-4 ml-1" />

@@ -68,12 +68,13 @@ export default function AppointmentDetailPage() {
         <Button
           variant="ghost"
           onClick={() => router.push('/dashboard/appointments')}
+          className="text-slate-300 hover:text-slate-100 hover:bg-slate-800"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Appointments
         </Button>
-        <div className="rounded-md border border-destructive p-4">
-          <p className="text-destructive">
+        <div className="rounded-md border border-red-900 bg-red-950/30 p-4">
+          <p className="text-red-400">
             Error loading appointment:{' '}
             {error instanceof Error ? error.message : 'Appointment not found'}
           </p>
@@ -90,60 +91,60 @@ export default function AppointmentDetailPage() {
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         {/* Appointment Information */}
-        <Card>
+        <Card className="bg-slate-900/50 border-slate-800">
           <CardHeader>
-            <CardTitle>Appointment Information</CardTitle>
+            <CardTitle className="text-slate-100">Appointment Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-start gap-3">
-              <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <Calendar className="h-5 w-5 text-blue-400 mt-0.5" />
               <div>
-                <p className="text-sm font-medium">Date & Time</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm font-medium text-slate-200">Date & Time</p>
+                <p className="text-sm text-slate-400">
                   {formatDateTime(appointment.start)}
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-slate-400">
                   Ends at {formatTime(appointment.end)}
                 </p>
               </div>
             </div>
 
-            <Separator />
+            <Separator className="bg-slate-800" />
 
             <div className="flex items-start gap-3">
-              <FileText className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <FileText className="h-5 w-5 text-purple-400 mt-0.5" />
               <div className="flex-1">
-                <p className="text-sm font-medium">Service</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm font-medium text-slate-200">Service</p>
+                <p className="text-sm text-slate-400">
                   {appointment.service.name}
                 </p>
                 {appointment.service.description && (
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-sm text-slate-500 mt-1">
                     {appointment.service.description}
                   </p>
                 )}
               </div>
             </div>
 
-            <Separator />
+            <Separator className="bg-slate-800" />
 
             <div className="flex items-start gap-3">
-              <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <Clock className="h-5 w-5 text-green-400 mt-0.5" />
               <div>
-                <p className="text-sm font-medium">Duration</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm font-medium text-slate-200">Duration</p>
+                <p className="text-sm text-slate-400">
                   {formatDuration(appointment.service.durationMinutes)}
                 </p>
               </div>
             </div>
 
-            <Separator />
+            <Separator className="bg-slate-800" />
 
             <div className="flex items-start gap-3">
-              <DollarSign className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <DollarSign className="h-5 w-5 text-amber-400 mt-0.5" />
               <div>
-                <p className="text-sm font-medium">Price</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm font-medium text-slate-200">Price</p>
+                <p className="text-sm text-slate-400">
                   {formatPrice(
                     appointment.service.priceCents!,
                     appointment.service.currency!
@@ -154,16 +155,16 @@ export default function AppointmentDetailPage() {
 
             {appointment.location && (
               <>
-                <Separator />
+                <Separator className="bg-slate-800" />
                 <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                  <MapPin className="h-5 w-5 text-slate-500 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium">Location</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm font-medium text-slate-200">Location</p>
+                    <p className="text-sm text-slate-400">
                       {appointment.location.name}
                     </p>
                     {appointment.location.address && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-slate-500">
                         {appointment.location.address}
                         {appointment.location.city && `, ${appointment.location.city}`}
                       </p>
@@ -175,12 +176,12 @@ export default function AppointmentDetailPage() {
 
             {appointment.notes && (
               <>
-                <Separator />
+                <Separator className="bg-slate-800" />
                 <div className="flex items-start gap-3">
-                  <FileText className="h-5 w-5 text-muted-foreground mt-0.5" />
+                  <FileText className="h-5 w-5 text-slate-500 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium">Notes</p>
-                    <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                    <p className="text-sm font-medium text-slate-200">Notes</p>
+                    <p className="text-sm text-slate-400 whitespace-pre-wrap">
                       {appointment.notes}
                     </p>
                   </div>
@@ -192,27 +193,27 @@ export default function AppointmentDetailPage() {
 
         {/* Customer Information */}
         <div className="space-y-6">
-          <Card>
+          <Card className="bg-slate-900/50 border-slate-800">
             <CardHeader>
-              <CardTitle>Customer Information</CardTitle>
+              <CardTitle className="text-slate-100">Customer Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3">
-                <User className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <User className="h-5 w-5 text-blue-400 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium">Name</p>
-                  <p className="text-sm text-muted-foreground">{customerName}</p>
+                  <p className="text-sm font-medium text-slate-200">Name</p>
+                  <p className="text-sm text-slate-400">{customerName}</p>
                 </div>
               </div>
 
               {appointment.customer.email && (
                 <>
-                  <Separator />
+                  <Separator className="bg-slate-800" />
                   <div className="flex items-start gap-3">
-                    <Mail className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <Mail className="h-5 w-5 text-purple-400 mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium">Email</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm font-medium text-slate-200">Email</p>
+                      <p className="text-sm text-slate-400">
                         {appointment.customer.email}
                       </p>
                     </div>
@@ -222,12 +223,12 @@ export default function AppointmentDetailPage() {
 
               {appointment.customer.phone && (
                 <>
-                  <Separator />
+                  <Separator className="bg-slate-800" />
                   <div className="flex items-start gap-3">
-                    <Phone className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <Phone className="h-5 w-5 text-green-400 mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium">Phone</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm font-medium text-slate-200">Phone</p>
+                      <p className="text-sm text-slate-400">
                         {appointment.customer.phone}
                       </p>
                     </div>
@@ -237,12 +238,12 @@ export default function AppointmentDetailPage() {
 
               {appointment.customer.notes && (
                 <>
-                  <Separator />
+                  <Separator className="bg-slate-800" />
                   <div className="flex items-start gap-3">
-                    <FileText className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <FileText className="h-5 w-5 text-slate-500 mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium">Customer Notes</p>
-                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                      <p className="text-sm font-medium text-slate-200">Customer Notes</p>
+                      <p className="text-sm text-slate-400 whitespace-pre-wrap">
                         {appointment.customer.notes}
                       </p>
                     </div>
@@ -253,19 +254,19 @@ export default function AppointmentDetailPage() {
           </Card>
 
           {/* Status Management */}
-          <Card>
+          <Card className="bg-slate-900/50 border-slate-800">
             <CardHeader>
-              <CardTitle>Status Management</CardTitle>
+              <CardTitle className="text-slate-100">Status Management</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm font-medium mb-2">Current Status</p>
+                  <p className="text-sm font-medium text-slate-200 mb-2">Current Status</p>
                   <AppointmentStatusBadge status={appointment.status} />
                 </div>
-                <Separator />
+                <Separator className="bg-slate-800" />
                 <div>
-                  <p className="text-sm font-medium mb-3">Update Status</p>
+                  <p className="text-sm font-medium text-slate-200 mb-3">Update Status</p>
                   <AppointmentStatusSelector
                     appointmentId={appointment.id}
                     currentStatus={appointment.status}
